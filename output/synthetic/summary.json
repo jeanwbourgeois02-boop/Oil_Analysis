@@ -1,0 +1,87 @@
+{
+  "spread_label": "RB/HO Jun - Dec Crack-Spread",
+  "unit": "$/bbl",
+  "data_first_date": "2012-06-01",
+  "data_last_date": "2026-09-22",
+  "n_days_total": 3595,
+  "n_vintages": 15,
+  "n_vintages_complete": 14,
+  "vintages": [
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027
+  ],
+  "current_vintage": 2027,
+  "overall_min": {
+    "value": -7.9506000000000085,
+    "date": "2020-05-07",
+    "vintage": 2020,
+    "tdays_to_expiry": 15,
+    "tday_index": 235
+  },
+  "overall_max": {
+    "value": 15.25019999999999,
+    "date": "2025-05-15",
+    "vintage": 2025,
+    "tdays_to_expiry": 10,
+    "tday_index": 239
+  },
+  "n_vintages_negative_any_day": 3,
+  "vintages_negative": [
+    2015,
+    2019,
+    2020
+  ],
+  "share_vintages_negative_any_day_pct": 20.0,
+  "n_vintages_negative_at_expiry": 1,
+  "vintages_negative_at_expiry": [
+    2020
+  ],
+  "mean_first_value_complete": 7.004999999999991,
+  "mean_last_value_complete": 7.134600000000001,
+  "median_last_value_complete": 7.520100000000017,
+  "mean_min_complete": 2.2685999999999997,
+  "mean_max_complete": 11.574,
+  "mean_of_means_complete": 7.116986721335249,
+  "mean_pct_negative_days_complete": 4.069436539556061,
+  "mean_max_drawdown_complete": 8.008500000000003,
+  "mean_value_t120_complete": 7.655400000000007,
+  "mean_value_t60_complete": 7.4148,
+  "mean_value_t20_complete": 6.195900000000003,
+  "lowest_last_value_complete": {
+    "vintage": 2020,
+    "value": -3.6833999999999865
+  },
+  "highest_last_value_complete": {
+    "vintage": 2025,
+    "value": 13.931399999999986
+  },
+  "current": {
+    "vintage": 2027,
+    "first_date": "2026-06-01",
+    "last_date": "2026-09-22",
+    "n_days": 79,
+    "first_value": 8.093400000000013,
+    "last_value": 6.35879999999999,
+    "min": 5.241600000000001,
+    "min_date": "2026-09-09",
+    "max": 8.689800000000012,
+    "max_date": "2026-06-24",
+    "n_negative_days": 0,
+    "est_tdays_to_expiry": 172,
+    "expected_expiry": "2027-05-28",
+    "pct_complete_last_values_below_current": 42.857142857142854
+  }
+}
