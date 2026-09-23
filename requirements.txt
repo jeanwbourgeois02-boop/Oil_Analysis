@@ -1,0 +1,12 @@
+# Rechenkern der Analyse. tools/bootstrap.py installiert dieselbe Liste
+# automatisch nach; diese Datei ist fuer Menschen und die IT-Abteilung.
+#   py -m pip install --user -r requirements.txt
+pandas>=2.0
+numpy
+openpyxl
+matplotlib
+plotly
+
+# Bloomberg-Desktop-API - NUR auf dem Bloomberg-PC noetig, nicht aus PyPI:
+#   py -m pip install blpapi --index-url https://blpapi.bloomberg.com/repository/releases/python/simple/
+#   py -m pip install xbbg        (optional, bequemere Huelle um blpapi)

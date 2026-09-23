@@ -23,7 +23,42 @@ zweistellig versuchen, nur bei `#N/A` / „Invalid security“ auf die einstelli
 ausweichen (Spalte B der Tickerliste). Die einstellige Form zeigt immer auf den *nächsten*
 Kontrakt mit dieser Endziffer, für alte Jahrgänge also auf das falsche Jahrzehnt.
 
-## 2. Weg A (empfohlen): Excel-Vorlage mit dem Bloomberg-Add-in
+## 2. Weg 0 (am einfachsten): ein Klick
+
+Wenn auf dem Bloomberg-PC Python laufen darf, ist das der kuerzeste Weg:
+
+1. Das Projekt auf den Bloomberg-PC bringen (`git clone`, oder auf GitHub
+   **Code → Download ZIP**).
+2. **`ANALYSE_STARTEN.bat` doppelklicken.**
+
+Das Skript prueft Python und die noetigen Pakete und installiert Fehlendes nach
+(Benutzerinstallation, keine Adminrechte). Danach holt es ueber die
+Desktop-API **nur die Tage, die noch fehlen**, rechnet die Analyse und oeffnet
+den Bericht. Dauer beim ersten Mal ein paar Minuten, danach Sekunden.
+
+Der Zeitstempel jedes Laufs steht in `output/last_run.txt` und in der Kopfzeile
+von Bericht und Dashboard.
+
+Geht das nicht - keine Installationsrechte, kein Python, API gesperrt -, dann
+Weg A. Das Skript sagt es selbst und nennt die Alternative.
+
+### Tageslimit beachten
+
+Bloomberg zaehlt jeden Datenpunkt gegen ein Tageslimit. Der erste vollstaendige
+Abzug sind rund 40.000 Punkte; danach reichen wenige Dutzend pro Lauf, weil
+abgelaufene Kontrakte aus dem Cache kommen und nicht erneut abgefragt werden.
+
+Wichtig bei Weg A: **jedes Strg+Alt+F9 fragt alle Ticker des Blattes erneut ab.**
+Mehrfaches Neuberechnen beim Herumprobieren ist die haeufigste Ursache fuer
+`#N/A Daily Capacity`. Deshalb: einmal rechnen lassen, warten, dann sofort in
+Werte umwandeln.
+
+Ist das Limit erschoepft, hilft nur warten (es laeuft taeglich neu an) oder der
+Help Desk (zweimal **F1**). Fuer einen einmaligen historischen Abzug heben sie
+das Limit oft an. In der Zwischenzeit mit Teil-Vorlagen arbeiten:
+`py bloomberg/make_batches.py` erzeugt sie in `bloomberg/batches/`.
+
+## 3. Weg A: Excel-Vorlage mit dem Bloomberg-Add-in
 
 1. `bloomberg/bloomberg_pull_template.xlsx` auf den Bloomberg-PC kopieren (USB, Mail, Laufwerk).
 2. Am Terminal anmelden. Die Datei in Excel öffnen; der Menüband-Reiter **Bloomberg** muss
@@ -46,7 +81,7 @@ Kontrakt mit dieser Endziffer, für alte Jahrgänge also auf das falsche Jahrzeh
 7. **Speichern unter** `bloomberg_export.xlsx` (Dateityp „Excel-Arbeitsmappe (.xlsx)“, nicht .xlsm/.xls).
 8. Datei auf den Analyse-PC in den Projektordner **`data/raw/`** kopieren. Fertig.
 
-## 3. Weg B: Python-Skript über die Desktop-API
+## 4. Weg B: Python-Skript über die Desktop-API
 
 Voraussetzung: Auf dem Bloomberg-PC ist Python installiert und das Terminal läuft angemeldet.
 
@@ -71,7 +106,7 @@ Voraussetzung: Auf dem Bloomberg-PC ist Python installiert und das Terminal läu
    `data/raw/bloomberg_export_long.csv` (lang). Beide in **US-Cent je Gallone**, unverändert.
 6. `data/raw/bloomberg_export.csv` auf den Analyse-PC nach `data/raw/` kopieren.
 
-## 4. Weg C (Ersatz): Bloomberg Spreadsheet Builder
+## 5. Weg C (Ersatz): Bloomberg Spreadsheet Builder
 
 1. Vorlage öffnen, Reiter **Bloomberg → Spreadsheet Builder → Historical Data Table**.
 2. Wertpapiere: „From spreadsheet“ → Bereich `Tickerliste!A2:A61`. Für die noch laufenden
@@ -83,7 +118,7 @@ Voraussetzung: Auf dem Bloomberg-PC ist Python installiert und das Terminal läu
 5. Danach wie in Weg A: Strg+A, Strg+C, Inhalte einfügen → Werte; speichern als
    `bloomberg_export.xlsx`; nach `data/raw/` auf den Analyse-PC kopieren.
 
-## 5. Plausibilitäts-Checks vor dem Kopieren
+## 6. Plausibilitäts-Checks vor dem Kopieren
 
 - **60 Ticker** vorhanden (Zeile 1 im Blatt Daten bzw. Spaltenköpfe).
 - Abgelaufene **Jun-Kontrakte enden am letzten Geschäftstag im Mai** des Jahrgangs,
@@ -96,13 +131,14 @@ Voraussetzung: Auf dem Bloomberg-PC ist Python installiert und das Terminal läu
 - Keine Formeln mehr in der Datei (Zelle A2 anklicken: in der Bearbeitungsleiste muss ein
   Datum stehen, kein `=BDH(...)`).
 
-## 6. Häufige Fehler
+## 7. Häufige Fehler
 
 | Symptom | Ursache / Lösung |
 |---|---|
 | Datei ist auf dem Analyse-PC leer oder voller `#NAME?` | Formeln wurden nicht in Werte umgewandelt (Schritt A6). Auf dem Bloomberg-PC wiederholen. |
 | `#N/A Invalid security` bei Dez 2026 / 2027-Kontrakten | Einstellige Tickerform verwenden (Tickerliste, Spalte B). |
 | Reihe endet Jahre zu früh oder beginnt in der Zukunft | Falsche Tickerform: einstellige Form für einen abgelaufenen Jahrgang zeigt auf das falsche Jahrzehnt. Zweistellig nehmen. |
+| `#N/A Daily Capacity` | Tageslimit fuer Datenabrufe erschoepft - kein Datei- oder Formelfehler. Nicht weiter neu berechnen (das verbraucht weiter). Bereits gefuellte Spalten sofort in Werte umwandeln und sichern, am Folgetag blockweise nachholen (`py bloomberg/make_batches.py`). Help Desk: zweimal F1. |
 | `#N/A Requesting Data…` bleibt stehen | Add-in lädt noch; warten, dann Strg+Alt+F9. Notfalls Excel neu starten. |
 | Datumsfehler / falscher Zeitraum | In den Formeln stehen deshalb `YYYYMMDD`-Strings (`"20120601"`), die vom Excel-Gebietsschema unabhängig sind. Formeln nicht mit `01.06.2012` o. ä. überschreiben. |
 | Ticker lautet `XBM13 COMB Comdty` statt `XBM13 Comdty` | Beides ist in Ordnung (`COMB` = kombinierte Sitzung), der Loader normalisiert. |

@@ -20,7 +20,7 @@ import html as _html
 import os
 import re
 import sys
-from datetime import date as _date
+from datetime import date as _date, datetime as _datetime
 from pathlib import Path
 
 import numpy as np
@@ -120,6 +120,11 @@ _INLINE_BOLD = re.compile(r"\*\*(.+?)\*\*")
 _INLINE_LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
 
 
+def run_stamp() -> str:
+    """Zeitpunkt dieses Laufs: Datum und Uhrzeit."""
+    return _datetime.now().strftime("%d.%m.%Y %H:%M")
+
+
 def _inline_html(text: str) -> str:
     s = _html.escape(text, quote=False)
     s = _INLINE_LINK.sub(lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', s)
@@ -207,7 +212,7 @@ def render_html(blocks: list[tuple], title: str) -> str:
     return (f'<!DOCTYPE html>\n<html lang="de"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width, initial-scale=1"><title>{_html.escape(title)}</title>'
             f"<style>{_CSS}</style></head><body><main>\n" + "\n".join(body) +
-            f"\n<footer>Erstellt am {_date.today().strftime('%d.%m.%Y')} · {_html.escape(config.SPREAD_LABEL)}</footer>"
+            f"\n<footer>Erstellt am {run_stamp()} Uhr · {_html.escape(config.SPREAD_LABEL)}</footer>"
             "</main></body></html>\n")
 
 
@@ -470,7 +475,7 @@ def build_blocks(spread_daily: pd.DataFrame, vintage_stats: pd.DataFrame | None,
     n_comp = int(vs["is_complete"].sum()) if len(vs) else 0
     blocks: list[tuple] = [
         H(1, REPORT_TITLE),
-        P(f"Stand der Daten: {stand} · erstellt am {_date.today().strftime('%d.%m.%Y')} · "
+        P(f"Stand der Daten: {stand} · erstellt am {run_stamp()} Uhr · "
           f"{n_comp} abgeschlossene Jahrgänge" + (f", Jahrgang {cur} laufend" if cur is not None else "") +
           f" · Einheit {UNIT}"),
         H(2, "Kernaussagen"),

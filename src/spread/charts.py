@@ -1192,6 +1192,8 @@ def build_dashboard(spread_daily: pd.DataFrame, vintage_stats: pd.DataFrame | No
     sections = "\n".join(
         f'<section id="sec-{k}"><div class="card">{d}</div></section>' for (k, lab, _), d in zip(figs, divs))
     first_v, last_v = (vints[0], vints[-1]) if vints else ("", "")
+    from .report import run_stamp as _run_stamp
+    run_ts = _run_stamp()
     page = f"""<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{_html.escape(config.SPREAD_LABEL)} – Dashboard</title>
@@ -1205,7 +1207,7 @@ nav a:hover{{text-decoration:underline}}section{{margin:0 0 22px}}.card{{backgro
 footer{{color:var(--muted);font-size:12px;margin-top:24px}}
 </style></head><body><main>
 <header><h1>{_html.escape(config.SPREAD_LABEL)} – interaktives Dashboard</h1>
-<p>Spread = [(RB Jun − HO Jun) − (RB Dez − HO Dez)] × 42 in {UNIT} · Jahrgänge {first_v}–{last_v} · Stand {stand}</p>
+<p>Spread = [(RB Jun − HO Jun) − (RB Dez − HO Dez)] × 42 in {UNIT} · Jahrgänge {first_v}–{last_v} · Stand {stand} · erstellt am {run_ts} Uhr</p>
 <p>Hover zeigt Datum, Jahrgang und Wert. Legendeneinträge anklicken blendet Serien aus, Doppelklick isoliert eine Serie.</p>
 <nav>{nav}</nav></header>
 {sections}
