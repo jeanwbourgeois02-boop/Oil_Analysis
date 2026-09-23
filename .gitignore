@@ -1,0 +1,36 @@
+# ---------------------------------------------------------------------------
+# Marktdaten: NIEMALS committen.
+# Bloomberg-Daten sind lizenziert, ihre Weitergabe (auch ueber ein oeffentliches
+# Repo) ist nicht erlaubt. Die Ordner bleiben leer im Repo erhalten.
+# ---------------------------------------------------------------------------
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# ---------------------------------------------------------------------------
+# Ergebnisse: werden von run_analysis.py erzeugt, gehoeren nicht ins Repo.
+# (Enthalten ausserdem abgeleitete Bloomberg-Werte.)
+# ---------------------------------------------------------------------------
+output/*
+!output/.gitkeep
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------------------
+# Excel / Editor / Windows
+# ---------------------------------------------------------------------------
+~$*.xls*
+*.tmp
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

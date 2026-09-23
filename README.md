@@ -56,3 +56,13 @@ letzter abgeschlossener Jahrgang 2026, Jahrgang 2027 läuft seit 1. Juni 2026.
 - **Nur vollständige Tage:** Ein Tag geht nur in die Kette ein, wenn alle vier Beine einen Preis haben.
 - **Weit entfernte Kontrakte:** Am Fensterbeginn ist Dec 18 Monate entfernt und dünn gehandelt. Settlements dort sind weniger aussagekräftig als ab etwa Januar.
 - **Strukturbruch:** Vor dem Mai‑2013‑Kontrakt war HO Heizöl mit bis zu 2.000 ppm Schwefel. Die Analyse beginnt deshalb mit Jahrgang 2013.
+
+## Daten und Git
+
+Im Repository liegt **nur Code**, keine Marktdaten und keine Ergebnisse. Die Ordner
+`data/raw/`, `data/processed/` und `output/` sind per `.gitignore` ausgeschlossen.
+
+Das ist Absicht: Bloomberg-Daten sind lizenziert und dürfen nicht weitergegeben werden.
+Also niemals den Bloomberg-Export oder die daraus erzeugten Dateien committen. Auf einem
+neuen Rechner reicht `git clone`, danach die eigene Exportdatei nach `data/raw/` legen
+und `py run_analysis.py` starten.
